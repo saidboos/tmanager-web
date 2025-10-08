@@ -1,8 +1,16 @@
 import {
   Box,
   Button,
+  Card,
   IconButton,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -10,11 +18,21 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import StatBox from "../../components/StatBox";
 import {
+  BuildCircle,
+  CalendarMonth,
+  Category,
   CheckCircle,
+  Circle,
   Done,
   HourglassTop,
+  Lens,
   Person,
+  PriorityHigh,
+  SignalWifiStatusbar4Bar,
   Task,
+  Timeline,
+  Title,
+  TrackChanges,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { INIT_KEY } from "../../auth/AuthContext";
@@ -24,6 +42,20 @@ const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [users, setUsers] = useState([]);
+
+  const [page, setPage] = useState(0); // Current page index
+  const [rowsPerPage, setRowsPerPage] = useState(9); // Number of rows per page
+
+  // Handle page change
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  // Handle change in rows per page
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset the table to the first page whenever rows per page changes
+  };
 
   useEffect(() => {
     try {
@@ -49,20 +81,6 @@ const Dashboard = () => {
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="Dashboard" />
-        {/* <Box>
-          <Button
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box> */}
       </Box>
 
       {/* GRID & CHARTS */}
@@ -77,7 +95,7 @@ const Dashboard = () => {
           <Paper elevation={4} sx={{ width: "100%", p: 2, borderRadius: 2 }}>
             <StatBox
               title="12,361"
-              subtitle="Tasks Completed"
+              subtitle="Completed Tickets"
               icon={
                 <CheckCircle
                   sx={{ color: colors.greenAccent[400], fontSize: "26px" }}
@@ -90,7 +108,7 @@ const Dashboard = () => {
           <Paper elevation={4} sx={{ width: "100%", p: 2, borderRadius: 2 }}>
             <StatBox
               title="431,225"
-              subtitle="Pending Tasks"
+              subtitle="In Review Tickets"
               icon={
                 <HourglassTop
                   sx={{ color: colors.greenAccent[400], fontSize: "26px" }}
@@ -103,7 +121,7 @@ const Dashboard = () => {
           <Paper elevation={4} sx={{ width: "100%", p: 2, borderRadius: 2 }}>
             <StatBox
               title="32,441"
-              subtitle="All Tasks"
+              subtitle="In Progress Tickets"
               progress="0.30"
               increase="+5%"
               icon={
@@ -133,11 +151,8 @@ const Dashboard = () => {
 
       {/* ROW 2 */}
       <Box mt="40px" display="flex" justifyContent="space-between">
-        {/* NEW TICKETS */}
-        <Box
-          // backgroundColor="yellow"
-          flex="7.2"
-        >
+        {/* RECENT TICKETS */}
+        <Box flex="7.2">
           <Typography
             variant="h4"
             color={colors.grey[100]}
@@ -146,6 +161,216 @@ const Dashboard = () => {
           >
             Recent Tickets
           </Typography>
+          <Box
+            display="flex"
+            justifyContent="center"
+            border="ActiveBorder"
+            mt="10px"
+          >
+            <Card
+              sx={{
+                width: "100%",
+                border: "1px solid #e0ddddff",
+                borderRadius: "15px",
+              }}
+            >
+              <TableContainer>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          width: "12%",
+                        }}
+                        scope="col"
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <Task sx={{ color: colors.greenAccent[400] }} />
+                          Ticket No
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          width: "22%",
+                        }}
+                        scope="col"
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <Title sx={{ color: colors.greenAccent[400] }} />
+                          Ticket Name
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          width: "11%",
+                        }}
+                        scope="col"
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <TrackChanges
+                            sx={{ color: colors.greenAccent[400] }}
+                          />
+                          Status
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          width: "11%",
+                        }}
+                        scope="col"
+                      >
+                        {" "}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <PriorityHigh
+                            sx={{ color: colors.greenAccent[400] }}
+                          />
+                          Priority
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          width: "12%",
+                        }}
+                        scope="col"
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <BuildCircle
+                            sx={{ color: colors.greenAccent[400] }}
+                          />
+                          Type
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          width: "16%",
+                        }}
+                        scope="col"
+                      >
+                               <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <CalendarMonth
+                            sx={{ color: colors.greenAccent[400] }}
+                          />
+                        Start Date
+                        </Box>
+                      </TableCell>
+                      <TableCell
+                        scope="col"
+                        align="center"
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "16px",
+                          width: "16%",
+                        }}
+                      >
+                               <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <CalendarMonth
+                            sx={{ color: colors.greenAccent[400] }}
+                          />
+                        Due Date
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {users
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((user, index) => (
+                        <TableRow key={index}>
+                          <TableCell sx={{ width: "12%" }}>
+                            <Typography
+                              sx={{
+                                fontSize: "15px",
+                                color: colors.blueAccent[400],
+                                fontWeight: "600",
+                                cursor: "pointer",
+                                textDecoration: "underline",
+                              }}
+                            >
+                              TKT-000001
+                            </Typography>
+                          </TableCell>
+                          <TableCell sx={{ fontSize: "15px", width: "22%" }}>
+                            Reset Customer Account
+                          </TableCell>
+                          <TableCell sx={{ fontSize: "15px", width: "11%" }}>
+                            Pending
+                          </TableCell>
+                          <TableCell sx={{ fontSize: "15px", width: "11%" }}>
+                            Critical
+                          </TableCell>
+                          <TableCell sx={{ fontSize: "15px", width: "12%" }}>
+                            Maintenance
+                          </TableCell>
+                          <TableCell sx={{ fontSize: "15px", width: "16%" }}>
+                            2025-10-07 10:00 AM
+                          </TableCell>
+                          <TableCell sx={{ fontSize: "15px", width: "16%" }}>
+                            2025-10-08 05:00 PM
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Card>
+          </Box>
         </Box>
         {/* LATEST USERS */}
         <Box flex="2.8" pl="35px">
@@ -159,7 +384,12 @@ const Dashboard = () => {
             Recent Users
           </Typography>
           <Paper elevation={4} sx={{ p: 2, borderRadius: 2 }}>
-            <Box p="0px 15px" borderRadius="8px" overflow="auto"  sx={{ maxHeight:"calc(100vh - 400px)",  overflowY: "auto" }}>
+            <Box
+              p="0px 15px"
+              borderRadius="8px"
+              overflow="auto"
+              sx={{ maxHeight: "calc(100vh - 400px)", overflowY: "auto" }}
+            >
               {users.slice(0, 8).map((user, i) => (
                 <Box
                   key={i}

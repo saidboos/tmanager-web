@@ -16,7 +16,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import { Assessment, PersonAddAlt1Outlined } from "@mui/icons-material";
+import { Assessment, PersonAddAlt1Outlined, TaskOutlined } from "@mui/icons-material";
 import { useAuth } from "../../auth/AuthContext";
 import { use } from "react";
 import { capitalizeFirstLetter } from "../../utils/stringUtils";
@@ -144,6 +144,14 @@ const Sidebar = () => {
             >
               Pages
             </Typography> */}
+            <Item
+              title="Tickets"
+              to="/tickets"
+              icon={<TaskOutlined />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            
             <Item
               title="Manage Users"
               to="/users"

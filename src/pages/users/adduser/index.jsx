@@ -63,6 +63,7 @@ const AddUser = () => {
       //Payload
       const payload = {
         firstName: values.firstName,
+        middleName: values.middleName,
         lastName: values.lastName,
         username: values.username,
         phoneNumber: values.contact,

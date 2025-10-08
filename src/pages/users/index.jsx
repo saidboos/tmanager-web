@@ -37,14 +37,14 @@ const Users = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
 
-  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openLoginDialog, setOpenLoginDialog] = useState(false);
 
   const handleClickOpenEditDialog = () => {
-    setOpenEditDialog(true);
+    setOpenLoginDialog(true);
   };
 
   const handleCloseEditDialog = () => {
-    setOpenEditDialog(false);
+    setOpenLoginDialog(false);
   };
 
   useEffect(() => {
@@ -120,6 +120,7 @@ const Users = () => {
         </Box>
       </Box>
 
+      {/* USERS TABLE */}
       <Box
         display="flex"
         justifyContent="center"
@@ -230,7 +231,21 @@ const Users = () => {
                         {user.title}
                       </TableCell>
                       <TableCell sx={{ fontSize: "15px", width: "12%" }}>
-                        {capitalizeFirstLetter(user.role)}
+                        <Typography
+                          sx={{
+                            fontSize: "15px",
+                            backgroundColor:
+                              user.role === "ADMIN"
+                                ? colors.blueAccent[600]
+                                : "",
+                            color: user.role === "ADMIN" ? "white" : "",
+                            borderRadius: "10px",
+                            display: "inline",
+                            padding: "3px 10px",
+                          }}
+                        >
+                          {capitalizeFirstLetter(user.role)}
+                        </Typography>
                       </TableCell>
                       <TableCell align="center" sx={{ width: "23%" }}>
                         <Box
@@ -254,6 +269,8 @@ const Users = () => {
                           >
                             Edit
                           </Button>
+
+                          {/* RESET PASSWORD */}
                           <img
                             alt="profile-user"
                             width="40px"
@@ -283,7 +300,7 @@ const Users = () => {
       </Box>
 
       {/* Edit User Dialog */}
-      <Dialog open={openEditDialog} onClose={handleCloseEditDialog} fullWidth>
+      <Dialog open={openLoginDialog} onClose={handleCloseEditDialog} fullWidth>
         <Box p={3}>
           <Typography variant="h6" gutterBottom>
             Edit User
